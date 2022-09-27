@@ -6,7 +6,6 @@ var initialIndex = 0;
 var nextCounter = 0;
 var prevCounter = 0;
 var selectedIndex = 0;
-var stepBack = 0;
 
 function rotateCarousel(direction) {
   if (NumberOfSlides <= 1) {
@@ -42,13 +41,9 @@ function rotateCarousel(direction) {
   if (direction === 'next') {
     if (selectedIndex <= 0) {
       const current = (initialIndex + 1) % NumberOfSlides;
-      stepBack = Math.floor((selectedIndex+1) / NumberOfSlides);
+      const stepBack = Math.floor((selectedIndex+1) / NumberOfSlides);
 
-      if (stepBack < 0) {
-        cells[current].style.transform = `translateX(${WIDTH * stepBack}px)`;
-      } else if (stepBack === 0) {
-        cells[current].style.transform = `translateX(${WIDTH * stepBack}px)`;
-      }
+      cells[current].style.transform = `translateX(${WIDTH * stepBack}px)`;
     }
 
     if (selectedIndex > 0) {

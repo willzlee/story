@@ -15,17 +15,17 @@ number of visible slides
 
 play loopback
 
-slide transistion
-
 slide dimension
+
+slide transistion
 ```
 
 > TBD
 
 ```
-tap and swipe support
-
 keyboard support
+
+tap and swipe support
 ```
 
 **Story Book Demo**
