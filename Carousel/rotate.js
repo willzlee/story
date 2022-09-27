@@ -9,9 +9,25 @@ var selectedIndex = 0;
 var stepBack = 0;
 
 function rotateCarousel(direction) {
-  if (NumberOfSlides === 1) {
+  if (NumberOfSlides <= 1) {
     return;
   }
+
+  if (Loopback) {
+    if (selectedIndex < 0) {
+      carousel.style.transform = `translateX(${(NumberOfSlides - 1) * slideWidth * -1}px)`;
+      selectedIndex = NumberOfSlides - 1;
+    } else if (selectedIndex === NumberOfSlides) {
+      carousel.style.transform = `translateX(0px)`;
+      selectedIndex = 0;
+    } else {
+      carousel.style.transform = `translateX(${selectedIndex * slideWidth * -1}px)`;
+    }
+
+    return;
+  }
+
+  carousel.style.transform = `translateX(${selectedIndex * slideWidth * -1}px)`;
 
   if (selectedIndex < 0) {
     if (selectedIndex % NumberOfSlides === 0) {
@@ -22,8 +38,6 @@ function rotateCarousel(direction) {
   } else {
     initialIndex = selectedIndex % NumberOfSlides;
   }
-
-  carousel.style.transform = `translateX(${selectedIndex * slideWidth * -1}px)`;
 
   if (direction === 'next') {
     if (selectedIndex <= 0) {

@@ -6,19 +6,21 @@
 
 **Source Code in plain JS**
 
-> Customization
+> Customization Options
 
 ```
 animation duration
 
 number of visible slides
 
+play loopback
+
 slide transistion
 
 slide dimension
 ```
 
-> TODO
+> TBD
 
 ```
 tap and swipe support
@@ -28,4 +30,4 @@ keyboard support
 
 **Story Book Demo**
 
-> TODO
+> TBD
