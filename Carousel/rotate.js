@@ -1,4 +1,5 @@
 const carousel = document.querySelector('.carousel');
+const container = document.querySelector('.container');
 const cells = carousel.querySelectorAll('.slide');
 const slideWidth = SlideDimention.width;
 const WIDTH = NumberOfSlides * slideWidth;
@@ -64,12 +65,20 @@ function rotateCarousel(direction) {
   }
 
   if (direction === 'prev') {
-    if (selectedIndex > 0) {
+    if (selectedIndex >= 0) {
       if (initialIndex === 0) {
-        cells[NumberOfSlides-1].style.transform = `translateX(${(selectedIndex-NumberOfSlides) * slideWidth}px)`;
+        if (NumberOfSlides === 2) {
+          cells[initialIndex].style.transform = `translateX(${selectedIndex * slideWidth}px)`;
+        } else {
+          cells[NumberOfSlides-1].style.transform = `translateX(${(selectedIndex-NumberOfSlides) * slideWidth}px)`;
+        }
       } else {
-        const prevSlide = (selectedIndex - 1) % NumberOfSlides;
+        let prevSlide = (selectedIndex - 1) % NumberOfSlides;
+        if (NumberOfSlides === 2) {
+          prevSlide = initialIndex;
+        }
         cells[prevSlide].style.transform = `translateX(${(selectedIndex-initialIndex) * slideWidth}px)`;
+
       }
     }
 
@@ -100,6 +109,8 @@ function rotateCarousel(direction) {
 /**
  * Config Carousel via customized values
  */
+container.style.height = SlideDimention.height + 4;
+container.style.width = SlideDimention.width + 4;
 carousel.style.width = WIDTH;
 carousel.style.transition = Duration;
 cells.forEach((cell, i) => {
@@ -124,4 +135,14 @@ const nextButton = document.querySelector('.next-button');
 nextButton.addEventListener( 'click', function() {
   selectedIndex++;
   rotateCarousel('next');
+});
+
+document.addEventListener('keydown', function(e) {
+  if (e.code === 'ArrowLeft') {
+    selectedIndex--;
+    rotateCarousel('prev');
+ } else if (e.code === 'ArrowRight') {
+   selectedIndex++;
+   rotateCarousel('next');
+ }
 });

@@ -20,11 +20,15 @@ slide dimension
 slide transistion
 ```
 
-> TBD
+> External Support
 
 ```
 keyboard support
+```
 
+> TBD
+
+```
 tap and swipe support
 ```
 
