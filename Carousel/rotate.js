@@ -1,6 +1,9 @@
 const carousel = document.querySelector('.carousel');
 const container = document.querySelector('.container');
 const cells = carousel.querySelectorAll('.slide');
+const NumberOfSlides = ShowNumberOfSlides <= cells.length
+  ? ShowNumberOfSlides
+  : cells.length;
 const slideWidth = SlideDimention.width;
 const WIDTH = NumberOfSlides * slideWidth;
 var initialIndex = 0;
@@ -125,17 +128,27 @@ cells.forEach((cell, i) => {
   }
 });
 
+const debounce = (fn, timeout = 750) => {
+  let timer;
+  return (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      fn.apply(this, args);
+    }, timeout);
+  };
+};
+
 const prevButton = document.querySelector('.previous-button');
-prevButton.addEventListener( 'click', function() {
+prevButton.addEventListener( 'click', debounce(() => {
   selectedIndex--;
   rotateCarousel('prev');
-});
+}));
 
 const nextButton = document.querySelector('.next-button');
-nextButton.addEventListener( 'click', function() {
+nextButton.addEventListener( 'click', debounce(() => {
   selectedIndex++;
   rotateCarousel('next');
-});
+}));
 
 document.addEventListener('keydown', function(e) {
   if (e.code === 'ArrowLeft') {
