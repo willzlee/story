@@ -4,12 +4,37 @@ const cells = carousel.querySelectorAll('.slide');
 const NumberOfSlides = ShowNumberOfSlides <= cells.length
   ? ShowNumberOfSlides
   : cells.length;
+const shortList = (NumberOfSlides === 2 || NumberOfSlides === 3) ? true : false;
 const slideWidth = SlideDimention.width;
 const WIDTH = NumberOfSlides * slideWidth;
+var delay;
 var initialIndex = 0;
 var nextCounter = 0;
 var prevCounter = 0;
 var selectedIndex = 0;
+
+const moveDebounce = (fn, timeout = Duration) => {
+  let timer;
+  return () => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      fn.apply(this, []);
+    }, timeout);
+  };
+};
+
+const debounce = (fn, timeout = Duration) => {
+  let timer;
+  return (...args) => {
+    if (!timer) {
+      fn.apply(this, args);
+    }
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      timer = undefined;
+    }, timeout);
+  };
+};
 
 function rotateCarousel(direction) {
   if (NumberOfSlides <= 1) {
@@ -47,7 +72,13 @@ function rotateCarousel(direction) {
       const current = (initialIndex + 1) % NumberOfSlides;
       const stepBack = Math.floor((selectedIndex+1) / NumberOfSlides);
 
-      cells[current].style.transform = `translateX(${WIDTH * stepBack}px)`;
+      if (shortList) {
+        delay = moveDebounce(() => {
+          cells[current].style.transform = `translateX(${WIDTH * stepBack}px)`;
+        });
+      } else {
+        cells[current].style.transform = `translateX(${WIDTH * stepBack}px)`;
+      }
     }
 
     if (selectedIndex > 0) {
@@ -57,13 +88,34 @@ function rotateCarousel(direction) {
         const index = (selectedIndex - NumberOfSlides + 1) % NumberOfSlides;
 
         if (nextCounter > 0) {
-          cells[index].style.transform = `translateX(${WIDTH * nextCounter}px)`;
+          if (shortList) {
+            delay = moveDebounce(() => {
+              cells[index].style.transform = `translateX(${WIDTH * nextCounter}px)`;
+            });
+          } else {
+            cells[index].style.transform = `translateX(${WIDTH * nextCounter}px)`;
+          }
         } else {
-          cells[index].style.transform = `translateX(${WIDTH}px)`;
+          if (shortList) {
+            delay = moveDebounce(() => {
+              cells[index].style.transform = `translateX(${WIDTH}px)`;
+            });
+          } else {
+              cells[index].style.transform = `translateX(${WIDTH}px)`;
+          }
         }
       } else {
-        cells[initialIndex+1].style.transform = 'translateX(0px)';
+        if (shortList) {
+          delay = moveDebounce(() => {
+            cells[initialIndex+1].style.transform = 'translateX(0px)';
+          });
+        } else {
+          cells[initialIndex+1].style.transform = 'translateX(0px)';
+        }
       }
+    }
+    if (shortList) {
+      delay();
     }
   }
 
@@ -81,7 +133,6 @@ function rotateCarousel(direction) {
           prevSlide = initialIndex;
         }
         cells[prevSlide].style.transform = `translateX(${(selectedIndex-initialIndex) * slideWidth}px)`;
-
       }
     }
 
@@ -115,7 +166,7 @@ function rotateCarousel(direction) {
 container.style.height = SlideDimention.height + 4;
 container.style.width = SlideDimention.width + 4;
 carousel.style.width = WIDTH;
-carousel.style.transition = Duration;
+carousel.style.transition = `${Duration}ms`;
 cells.forEach((cell, i) => {
   cell.style.transition = SlideTransition;
   cell.style.height = SlideDimention.height;
@@ -127,16 +178,6 @@ cells.forEach((cell, i) => {
     cell.style.display = 'inline-block';
   }
 });
-
-const debounce = (fn, timeout = 750) => {
-  let timer;
-  return (...args) => {
-    clearTimeout(timer);
-    timer = setTimeout(() => {
-      fn.apply(this, args);
-    }, timeout);
-  };
-};
 
 const prevButton = document.querySelector('.previous-button');
 prevButton.addEventListener( 'click', debounce(() => {
@@ -150,12 +191,12 @@ nextButton.addEventListener( 'click', debounce(() => {
   rotateCarousel('next');
 }));
 
-document.addEventListener('keydown', function(e) {
+document.addEventListener('keydown', debounce((e) => {
   if (e.code === 'ArrowLeft') {
-    selectedIndex--;
-    rotateCarousel('prev');
- } else if (e.code === 'ArrowRight') {
-   selectedIndex++;
-   rotateCarousel('next');
- }
-});
+      selectedIndex--;
+      rotateCarousel('prev');
+   } else if (e.code === 'ArrowRight') {
+       selectedIndex++;
+       rotateCarousel('next');
+   }
+}));
