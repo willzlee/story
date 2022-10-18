@@ -52,12 +52,8 @@ ul {
   z-index: 2;
 }
 
-.previous-button {
+.options button {
+  cursor: pointer;
   padding: 5px 10px;
-  margin-right: 5px;
-}
-
-.next-button {
-  padding: 5px 10px;
-  margin-left: 5px;
+  margin: 0 5px;
 }

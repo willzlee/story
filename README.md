@@ -24,12 +24,14 @@ slide transistion
 
 ```
 keyboard support
+
+tap and swipe support
 ```
 
 > TBD
 
 ```
-tap and swipe support
+dot control support
 ```
 
 **Story Book Demo**

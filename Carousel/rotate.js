@@ -13,7 +13,7 @@ var nextCounter = 0;
 var prevCounter = 0;
 var selectedIndex = 0;
 
-const moveDebounce = (fn, timeout = Duration) => {
+const moveDebounce = (fn, timeout = shortList ? Duration : 100) => {
   let timer;
   return () => {
     clearTimeout(timer);
@@ -23,7 +23,7 @@ const moveDebounce = (fn, timeout = Duration) => {
   };
 };
 
-const debounce = (fn, timeout = Duration) => {
+const debounce = (fn, timeout = shortList ? Duration : 100) => {
   let timer;
   return (...args) => {
     if (!timer) {
@@ -36,6 +36,10 @@ const debounce = (fn, timeout = Duration) => {
   };
 };
 
+const translate = (position) => {
+  return `translateX(${position}px)`;
+};
+
 function rotateCarousel(direction) {
   if (NumberOfSlides <= 1) {
     return;
@@ -43,19 +47,19 @@ function rotateCarousel(direction) {
 
   if (Loopback) {
     if (selectedIndex < 0) {
-      carousel.style.transform = `translateX(${(NumberOfSlides - 1) * slideWidth * -1}px)`;
+      carousel.style.transform = translate((NumberOfSlides - 1) * slideWidth * -1);
       selectedIndex = NumberOfSlides - 1;
     } else if (selectedIndex === NumberOfSlides) {
-      carousel.style.transform = `translateX(0px)`;
+      carousel.style.transform = translate(0);
       selectedIndex = 0;
     } else {
-      carousel.style.transform = `translateX(${selectedIndex * slideWidth * -1}px)`;
+      carousel.style.transform = translate(selectedIndex * slideWidth * -1);
     }
 
     return;
   }
 
-  carousel.style.transform = `translateX(${selectedIndex * slideWidth * -1}px)`;
+  carousel.style.transform = translate(selectedIndex * slideWidth * -1);
 
   if (selectedIndex < 0) {
     if (selectedIndex % NumberOfSlides === 0) {
@@ -74,10 +78,10 @@ function rotateCarousel(direction) {
 
       if (shortList) {
         delay = moveDebounce(() => {
-          cells[current].style.transform = `translateX(${WIDTH * stepBack}px)`;
+          cells[current].style.transform = translate(WIDTH * stepBack);
         });
       } else {
-        cells[current].style.transform = `translateX(${WIDTH * stepBack}px)`;
+        cells[current].style.transform = translate(WIDTH * stepBack);
       }
     }
 
@@ -90,27 +94,27 @@ function rotateCarousel(direction) {
         if (nextCounter > 0) {
           if (shortList) {
             delay = moveDebounce(() => {
-              cells[index].style.transform = `translateX(${WIDTH * nextCounter}px)`;
+              cells[index].style.transform = translate(WIDTH * nextCounter);
             });
           } else {
-            cells[index].style.transform = `translateX(${WIDTH * nextCounter}px)`;
+            cells[index].style.transform = translate(WIDTH * nextCounter);
           }
         } else {
           if (shortList) {
             delay = moveDebounce(() => {
-              cells[index].style.transform = `translateX(${WIDTH}px)`;
+              cells[index].style.transform = translate(WIDTH);
             });
           } else {
-              cells[index].style.transform = `translateX(${WIDTH}px)`;
+              cells[index].style.transform = translate(WIDTH);
           }
         }
       } else {
         if (shortList) {
           delay = moveDebounce(() => {
-            cells[initialIndex+1].style.transform = 'translateX(0px)';
+            cells[initialIndex+1].style.transform = translate(0);
           });
         } else {
-          cells[initialIndex+1].style.transform = 'translateX(0px)';
+          cells[initialIndex+1].style.transform = translate(0);
         }
       }
     }
@@ -123,16 +127,16 @@ function rotateCarousel(direction) {
     if (selectedIndex >= 0) {
       if (initialIndex === 0) {
         if (NumberOfSlides === 2) {
-          cells[initialIndex].style.transform = `translateX(${selectedIndex * slideWidth}px)`;
+          cells[initialIndex].style.transform = translate(selectedIndex * slideWidth);
         } else {
-          cells[NumberOfSlides-1].style.transform = `translateX(${(selectedIndex-NumberOfSlides) * slideWidth}px)`;
+          cells[NumberOfSlides-1].style.transform = translate((selectedIndex-NumberOfSlides) * slideWidth);
         }
       } else {
         let prevSlide = (selectedIndex - 1) % NumberOfSlides;
         if (NumberOfSlides === 2) {
           prevSlide = initialIndex;
         }
-        cells[prevSlide].style.transform = `translateX(${(selectedIndex-initialIndex) * slideWidth}px)`;
+        cells[prevSlide].style.transform = translate((selectedIndex-initialIndex) * slideWidth);
       }
     }
 
@@ -142,18 +146,18 @@ function rotateCarousel(direction) {
 
       if(prevIndex === 0) {
         if (prevCounter > 0) {
-          cells[prevIndex].style.transform = `translateX(${WIDTH * prevCounter * -1}px)`;
+          cells[prevIndex].style.transform = translate(WIDTH * prevCounter * -1);
         } else {
-          cells[prevIndex].style.transform = `translateX(${WIDTH * -1}px)`;
+          cells[prevIndex].style.transform = translate(WIDTH * -1);
         }
       } else {
         if (selectedIndex > -1 * NumberOfSlides) {
           prevCounter = 0;
         }
         if (prevCounter > 0) {
-          cells[NumberOfSlides+prevIndex].style.transform = `translateX(${WIDTH * (prevCounter+1) * -1}px)`;
+          cells[NumberOfSlides+prevIndex].style.transform = translate(WIDTH * (prevCounter+1) * -1);
         } else {
-          cells[NumberOfSlides+prevIndex].style.transform = `translateX(${WIDTH * -1}px)`;
+          cells[NumberOfSlides+prevIndex].style.transform = translate(WIDTH * -1);
         }
       }
     }
