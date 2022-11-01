@@ -1,5 +1,8 @@
+let movedX = 0;
+const movingEdge = 5;
+
 const getPosition = (event) => {
-  if ('touches' in event) {
+  if ('touches' in event && event.touches.length > 0) {
     const { pageX, pageY } = event.touches[0];
     return { x: pageX, y: pageY };
   }
@@ -27,21 +30,26 @@ const handleSwipeStart = (event) => {
 }
 
 const handleSwipeMove = (event) => {
+  const { x, y } = getPosition(event);
+  movedX = x - positionX;
   event.preventDefault();
 };
 
 const handleSwipeEnd = (event) => {
   const { x, y } = getPosition(event);
   if (Swipe) {
-    if (positionX > x) {
+    if (positionX > x || (movedX < -movingEdge)) {
       nextButton.click();
     }
-    if (positionX < x) {
+    if (positionX < x || (movedX > movingEdge)) {
       prevButton.click();
     }
   }
 };
 
 carousel.addEventListener('mousedown', onMouseDown);
+carousel.addEventListener('touchstart', handleSwipeStart);
 carousel.addEventListener('mousemove', onMouseMove);
+carousel.addEventListener('touchmove', handleSwipeMove);
 carousel.addEventListener('mouseup', onMouseUp);
+carousel.addEventListener('touchend', handleSwipeEnd);
