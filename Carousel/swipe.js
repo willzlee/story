@@ -12,6 +12,7 @@ const getPosition = (event) => {
 };
 
 const onMouseDown = (event) => {
+  movedX = 0;
   handleSwipeStart(event);
 };
 
@@ -24,6 +25,7 @@ const onMouseUp = (event) => {
 };
 
 const handleSwipeStart = (event) => {
+  movedX = 0;
   const { x, y } = getPosition(event);
   positionX = x;
   positionY = y;
@@ -37,11 +39,12 @@ const handleSwipeMove = (event) => {
 
 const handleSwipeEnd = (event) => {
   const { x, y } = getPosition(event);
+  event.preventDefault();
   if (Swipe) {
-    if (positionX > x || (movedX < -movingEdge)) {
+    if (positionX - x > movingEdge || (movedX < -movingEdge)) {
       nextButton.click();
     }
-    if (positionX < x || (movedX > movingEdge)) {
+    if (positionX - x < -movingEdge || (movedX > movingEdge)) {
       prevButton.click();
     }
   }
