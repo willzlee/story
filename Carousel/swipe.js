@@ -1,6 +1,3 @@
-let movedX = 0;
-const movingEdge = 5;
-
 const getPosition = (event) => {
   if ('touches' in event && event.touches.length > 0) {
     const { pageX, pageY } = event.touches[0];

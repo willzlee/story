@@ -5,7 +5,8 @@ const NumberOfSlides = ShowNumberOfSlides <= cells.length
   ? ShowNumberOfSlides
   : cells.length;
 const shortList = (NumberOfSlides === 2 || NumberOfSlides === 3) ? true : false;
-const slideWidth = SlideDimention.width;
+const slideWidth = SlideDimention.width >= 200 ? SlideDimention.width : 200;
+const slideHeight = SlideDimention.height >= 124 ? SlideDimention.height : 124;
 const WIDTH = NumberOfSlides * slideWidth;
 var delay;
 var initialIndex = 0;
@@ -70,6 +71,12 @@ function rotateCarousel(direction) {
   } else {
     initialIndex = selectedIndex % NumberOfSlides;
   }
+
+  const dotter = document.querySelectorAll('.item');
+  for (var i = 0; i < dotter.length; i++) {
+    dotter[i].classList.remove('selected');
+  }
+  dotter[initialIndex].classList.add('selected');
 
   if (direction === 'next') {
     if (selectedIndex <= 0) {
@@ -167,13 +174,13 @@ function rotateCarousel(direction) {
 /**
  * Config Carousel via customized values
  */
-container.style.height = SlideDimention.height + 4;
-container.style.width = SlideDimention.width + 4;
+container.style.height = slideHeight + 4;
+container.style.width = slideWidth + 4;
 carousel.style.width = WIDTH;
 carousel.style.transition = `${Duration}ms`;
 cells.forEach((cell, i) => {
   cell.style.transition = SlideTransition;
-  cell.style.height = SlideDimention.height;
+  cell.style.height = slideHeight;
   cell.style.width = SlideDimention.width;
 
   if (i >= NumberOfSlides) {
@@ -182,6 +189,25 @@ cells.forEach((cell, i) => {
     cell.style.display = 'inline-block';
   }
 });
+
+const dotIndicator = document.querySelector('.dotControl');
+for(var i = 0; i < NumberOfSlides; i++) {
+  let li = document.createElement('li');
+  if (i === 0) {
+    li.setAttribute('class', 'item selected');
+  } else {
+    li.setAttribute('class', 'item');
+  }
+
+  li.setAttribute('id', i);
+
+  let t = document.createTextNode(i);
+  li.appendChild(t);
+
+  if (NumberOfSlides > 1) {
+    dotIndicator.appendChild(li);
+  }
+}
 
 const prevButton = document.querySelector('.previous-button');
 prevButton.addEventListener( 'click', debounce(() => {

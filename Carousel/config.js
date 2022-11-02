@@ -7,6 +7,8 @@ const SlideDimention = {
   width: 400,
 };
 const Swipe = true;
+const movingEdge = 5;
 
+let movedX = 0;
 let positionX = 0;
 let positionY = 0;

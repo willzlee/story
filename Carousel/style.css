@@ -17,6 +17,34 @@ ul {
   list-style: none;
 }
 
+.dotControlContainer{
+  width: 100%;
+  z-index: 4;
+}
+
+ul.dotControl {
+  margin: 10px 0;
+  padding: 0;
+  display: inline-block;
+}
+
+li.item {
+  background-color: yellow;
+  border-radius: 50%;
+  box-shadow: 1px 1px 1px rgba(0,0,0, 0.3);
+  display: inline-block;
+  height: 12px;
+  margin: 0 8px 20px 8px;
+  opacity: 0.75;
+  width: 12px;
+}
+
+li.selected {
+  background-color: red;
+  box-shadow: 1px 1px 1px rgba(0,0,0, 0.6);
+  opacity: 0.8;
+}
+
 .container {
   border: 2px solid blue;
   margin: 80px auto;

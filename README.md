@@ -17,12 +17,14 @@ play loopback
 
 slide dimension
 
-slide transistion
+slide transition
 ```
 
 > External Support
 
 ```
+dot indicator support
+
 keyboard support
 
 tap and swipe support
@@ -31,7 +33,7 @@ tap and swipe support
 > TBD
 
 ```
-dot control support
+auto play
 ```
 
 **Story Book Demo**
