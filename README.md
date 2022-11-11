@@ -23,6 +23,8 @@ slide transition
 > External Support
 
 ```
+auto play
+
 dot indicator support
 
 keyboard support
@@ -30,11 +32,6 @@ keyboard support
 tap and swipe support
 ```
 
-> TBD
-
-```
-auto play
-```
 
 **Story Book Demo**
 
