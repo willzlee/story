@@ -243,6 +243,9 @@ nextButton.addEventListener( 'click', debounce(() => {
 }));
 
 document.addEventListener('keydown', debounce((e) => {
+  clearInterval(autoInterval);
+  clearTimeout(autoTimer);
+
   if (e.code === 'ArrowLeft') {
       selectedIndex--;
       rotateCarousel('prev');
@@ -250,6 +253,8 @@ document.addEventListener('keydown', debounce((e) => {
        selectedIndex++;
        rotateCarousel('next');
    }
+
+   autoTimer = setTimeout(autoPlayFn, autoPlayInterval);
 }));
 
 autoPlayFn();
