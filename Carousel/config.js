@@ -1,4 +1,6 @@
-const Duration = '345';
+const AutoPlay = true;
+const Duration = 345;
+const Interval = 1000;
 const Loopback = false;
 const ShowNumberOfSlides = 5;
 const SlideTransition = 'transform 5ms, opacity 1s';

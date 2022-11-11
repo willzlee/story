@@ -8,6 +8,8 @@ const shortList = (NumberOfSlides === 2 || NumberOfSlides === 3) ? true : false;
 const slideWidth = SlideDimention.width >= 200 ? SlideDimention.width : 200;
 const slideHeight = SlideDimention.height >= 124 ? SlideDimention.height : 124;
 const WIDTH = NumberOfSlides * slideWidth;
+var autoInterval;
+var autoTimer;
 var delay;
 var initialIndex = 0;
 var nextCounter = 0;
@@ -46,19 +48,7 @@ function rotateCarousel(direction) {
     return;
   }
 
-  if (Loopback) {
-    if (selectedIndex < 0) {
-      carousel.style.transform = translate((NumberOfSlides - 1) * slideWidth * -1);
-      selectedIndex = NumberOfSlides - 1;
-    } else if (selectedIndex === NumberOfSlides) {
-      carousel.style.transform = translate(0);
-      selectedIndex = 0;
-    } else {
-      carousel.style.transform = translate(selectedIndex * slideWidth * -1);
-    }
-
-    return;
-  }
+  const dotter = document.querySelectorAll('.item');
 
   carousel.style.transform = translate(selectedIndex * slideWidth * -1);
 
@@ -72,11 +62,24 @@ function rotateCarousel(direction) {
     initialIndex = selectedIndex % NumberOfSlides;
   }
 
-  const dotter = document.querySelectorAll('.item');
   for (var i = 0; i < dotter.length; i++) {
     dotter[i].classList.remove('selected');
   }
   dotter[initialIndex].classList.add('selected');
+
+  if (Loopback) {
+    if (selectedIndex < 0) {
+      carousel.style.transform = translate((NumberOfSlides - 1) * slideWidth * -1);
+      selectedIndex = NumberOfSlides - 1;
+    } else if (selectedIndex === NumberOfSlides) {
+      carousel.style.transform = translate(0);
+      selectedIndex = 0;
+    } else {
+      carousel.style.transform = translate(selectedIndex * slideWidth * -1);
+    }
+
+    return;
+  }
 
   if (direction === 'next') {
     if (selectedIndex <= 0) {
@@ -209,16 +212,34 @@ for(var i = 0; i < NumberOfSlides; i++) {
   }
 }
 
+const autoPlayInterval = Interval >= 3000 ? Interval : 3000;
+const autoPlayFn = () => {
+  if (AutoPlay) {
+    autoInterval = setInterval(() => {
+      selectedIndex++;
+      rotateCarousel('next');
+    }, autoPlayInterval);
+  }
+};
+
 const prevButton = document.querySelector('.previous-button');
 prevButton.addEventListener( 'click', debounce(() => {
+  clearInterval(autoInterval);
+  clearTimeout(autoTimer);
+
   selectedIndex--;
   rotateCarousel('prev');
+  autoTimer = setTimeout(autoPlayFn, autoPlayInterval);
 }));
 
 const nextButton = document.querySelector('.next-button');
 nextButton.addEventListener( 'click', debounce(() => {
+  clearInterval(autoInterval);
+  clearTimeout(autoTimer);
+
   selectedIndex++;
   rotateCarousel('next');
+  autoTimer = setTimeout(autoPlayFn, autoPlayInterval);
 }));
 
 document.addEventListener('keydown', debounce((e) => {
@@ -230,3 +251,5 @@ document.addEventListener('keydown', debounce((e) => {
        rotateCarousel('next');
    }
 }));
+
+autoPlayFn();
