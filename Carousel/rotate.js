@@ -84,7 +84,7 @@ function rotateCarousel(direction) {
   if (direction === 'next') {
     if (selectedIndex <= 0) {
       const current = (initialIndex + 1) % NumberOfSlides;
-      const stepBack = Math.floor((selectedIndex+1) / NumberOfSlides);
+      const stepBack = Math.floor((selectedIndex + 1) / NumberOfSlides);
 
       if (shortList) {
         delay = moveDebounce(() => {
@@ -142,10 +142,7 @@ function rotateCarousel(direction) {
           cells[NumberOfSlides-1].style.transform = translate((selectedIndex-NumberOfSlides) * slideWidth);
         }
       } else {
-        let prevSlide = (selectedIndex - 1) % NumberOfSlides;
-        if (NumberOfSlides === 2) {
-          prevSlide = initialIndex;
-        }
+        const prevSlide = NumberOfSlides === 2 ? initialIndex : (selectedIndex - 1) % NumberOfSlides;
         cells[prevSlide].style.transform = translate((selectedIndex-initialIndex) * slideWidth);
       }
     }

@@ -25,11 +25,11 @@ slide transition
 ```
 auto play
 
-dot indicator support
+dot indicator
 
-keyboard support
+keyboard navigation
 
-tap and swipe support
+tap and swipe
 ```
 
 

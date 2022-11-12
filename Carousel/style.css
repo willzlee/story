@@ -5,11 +5,6 @@ body {
   text-align: center;
 }
 
-div {
-  margin: 0;
-  padding: 0;
-}
-
 ul {
   margin: 0;
   padding: 0;
@@ -17,15 +12,10 @@ ul {
   list-style: none;
 }
 
-.dotControlContainer{
-  width: 100%;
-  z-index: 4;
-}
-
 ul.dotControl {
+  display: inline-block;
   margin: 10px 0;
   padding: 0;
-  display: inline-block;
 }
 
 li.item {
@@ -35,7 +25,7 @@ li.item {
   display: inline-block;
   height: 12px;
   margin: 0 8px 20px 8px;
-  opacity: 0.75;
+  opacity: 0.6;
   width: 12px;
 }
 
@@ -49,10 +39,6 @@ li.selected {
   border: 2px solid blue;
   margin: 80px auto;
   overflow: hidden;
-}
-
-.carousel {
-  height: 100%;
 }
 
 .slide {
@@ -76,8 +62,6 @@ li.selected {
 .options {
   background: hsla(0, 0%, 100%, 0.8);
   position: relative;
-  text-align: center;
-  z-index: 2;
 }
 
 .options button {
