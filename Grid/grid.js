@@ -1,6 +1,6 @@
 function renderGrid() {
     SpecialSize = SpecialSize > column ? column : SpecialSize;
-    
+
     let gridRows = row >= 100 ? row : 100;
     const specialItemSize = SpecialSize === 1 ? 2 : SpecialSize;
     const colSpan = specialItemSize <= column ? specialItemSize : column;
@@ -37,7 +37,7 @@ function renderGrid() {
 
     for (let i = 0; i < displayCells; i++) {
         const rowSpan = colSpan + 1;
-        let current = Special ? i + (colSpan - 1) : i;
+        const current = Special ? i + (colSpan - 1) : i;
 
         if ((i > 0 && current % col === 0 && currentRow < gridRows) && screen !== Tablet) {
             currentRow += 1;

@@ -55,7 +55,9 @@ Special Item (current):
 
 always start at col 1 / row 1
 
-always span on row 1
+always span on row 1 for Tablet and Desktop
+
+always span on col1 for Mobile
 
 
 Screen Layout (current):
@@ -76,9 +78,10 @@ can start at any position
 
 can span on rows and/or columns
 
+
 Screen Layout:
 
-cofigurable
+configurable
 ```
 
 > External Support
