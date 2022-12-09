@@ -12,8 +12,7 @@ const Tablet = 'tablet';
 const Desktop = 'desktop';
 
 const Display = 9;
+const Duration = 300;
 const Height = 200;
 const Special = true;
 let SpecialSize = 2;
-
-const Width = window.outerWidth;

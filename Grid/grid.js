@@ -1,17 +1,17 @@
 function renderGrid() {
     SpecialSize = SpecialSize > column ? column : SpecialSize;
 
-    let gridRows = row >= 100 ? row : 100;
+    const Width = window.innerWidth;
+    const grid = document.querySelector('.grid');
     const specialItemSize = SpecialSize === 1 ? 2 : SpecialSize;
     const colSpan = specialItemSize <= column ? specialItemSize : column;
-
-    const grid = document.querySelector('.grid');
 
     let col = 1;
     let colPosition = Special ? colSpan + 1 : 1;
     let currentRow = 1;
     let displayCells = 0;
     let gridCellLayout = '';
+    let gridRows = row >= 100 ? row : 100;
     let screen = Mobile;
 
     if (Width >= Tablet_Low && Width <= Tablet_High) {
@@ -93,6 +93,27 @@ function renderGrid() {
     }
 }
 
+const debounce = (fn, timeout = Duration) => {
+  let timer;
+  return () => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      fn.apply(this, []);
+    }, timeout);
+  };
+};
+
+const reset = () => {
+  const resetGrid = document.querySelector('.grid');
+  resetGrid.replaceChildren();
+
+  renderGrid();
+};
+
 window.addEventListener("DOMContentLoaded", (e) => {
     renderGrid();
 });
+
+window.addEventListener("resize", debounce(() => {
+    reset();
+}));
